@@ -1,3 +1,4 @@
+from main import logger, path_logger
 
 def test_1():
 
