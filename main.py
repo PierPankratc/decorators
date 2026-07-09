@@ -41,4 +41,34 @@ def path_logger(path):
     return __logger
 
 
+class FlatIterator:
+    def __init__(self, list_of_list):
+        self.list_of_list = list_of_list
+        self.outer_index = 0
+        self.inner_index = 0
+
+    def __iter__(self):
+      return self
+    
+    @logger
+    @path_logger('new_log.log')
+    def __next__(self):
+        if self.outer_index >= len(self.list_of_list):
+            raise StopIteration
+        
+        current_list = self.list_of_list[self.outer_index]
+        if self.inner_index >= len(current_list):
+            self.outer_index += 1
+            self.inner_index = 0
+            return self.__next__()
+        
+        item = current_list[self.inner_index]
+        self.inner_index += 1
+        
+        return item
+    
+lst = FlatIterator([[1], [8,3, 4], [5]])
+lst.__iter__()
+lst.__next__()
+lst.__next__()
 
